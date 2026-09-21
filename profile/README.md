@@ -19,3 +19,5 @@ Cross-cutting docs that don't belong to a single repo live here:
 
 - [`docs/ideas/`](https://github.com/pax-project/.github/blob/main/docs/ideas/README.md) —
   feature idea backlog, split by which repo each idea affects.
+- [`docs/goals/`](https://github.com/pax-project/.github/blob/main/docs/goals/README.md) —
+  every repo's spec, implementation-status, and build history.

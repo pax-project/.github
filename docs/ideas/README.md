@@ -3,7 +3,7 @@
 Feature ideas for the pax project, split by which repo they'd land in. Most
 were AI-assisted feature ideas from the start; the rest (ideas 11+) were
 surfaced from `pax-core`'s and `lazy-pax`'s original MVP non-goals lists
-(`docs/mvp.md §5`, `docs/dod.md §4`) — deferred features that don't belong
+([`goals/pax-core/mvp.md §5`](../goals/pax-core/mvp.md), [`goals/lazy-pax/dod.md §4`](../goals/lazy-pax/dod.md)) — deferred features that don't belong
 in a "non-goal" list once there's a backlog to track them in. Only genuine
 architectural boundaries (division of responsibility with Nix, no shadow
 state, etc.) stay documented as non-goals in each repo.

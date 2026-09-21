@@ -6,7 +6,8 @@ planned `pax-ai`/MCP server are all just clients of the same library. None
 of these need an LLM call, embeddings, or a derived cache; see
 [pax-ai.md](pax-ai.md) for the ones that do.
 
-Surfaced from `pax-core`'s original MVP non-goals list (`docs/mvp.md §5`) —
+Surfaced from `pax-core`'s original MVP non-goals list
+([`goals/pax-core/mvp.md §5`](../goals/pax-core/mvp.md)) —
 each was a deferred feature, not an architectural boundary, so it's tracked
 here rather than left as a stale "not doing this" note.
 

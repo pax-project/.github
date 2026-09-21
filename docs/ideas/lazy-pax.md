@@ -6,7 +6,7 @@ ones that are inherently UI/client concerns rather than `pax-core` domain
 logic.
 
 Ideas 17–20 are surfaced from `lazy-pax`'s original MVP non-goals list
-(`docs/dod.md §4`) — each was a deferred feature, not an architectural
+([`goals/lazy-pax/dod.md §4`](../goals/lazy-pax/dod.md)) — each was a deferred feature, not an architectural
 boundary, so they're tracked here rather than left as stale "not doing
 this" notes.
 
