@@ -5,6 +5,11 @@ kept out of `pax-core` and `lazy-pax` for the reasons in
 [README.md](README.md#architecture-pax-ai). `lazy-pax` will depend on
 `pax-ai` for all of these instead of implementing them internally.
 
+#21 is surfaced from `pax-core`'s original MVP non-goals list
+(`docs/mvp.md §5`) — it was a deferred feature, not an architectural
+boundary, so it's tracked here rather than left as a stale "not doing this"
+note.
+
 ---
 
 ## Search / finding quality
@@ -60,6 +65,16 @@ Improve how you navigate/query papers you've already declared.
 - **Notes:** Builds on #2's embedding infrastructure in `pax-ai`. Needs
   full-text extraction from fetched PDFs — bigger lift than the others on
   this list.
+
+### 21. Automatic literature reviews
+- **Status:** idea
+- **What:** Generate a draft survey/review document synthesizing multiple
+  papers in the library on a topic, rather than answering one question at a
+  time like #5.
+- **Why here:** A distinct, larger deliverable than RAG chat — a written
+  document, not a conversational answer.
+- **Notes:** Builds on #5's RAG infrastructure once that exists; treat as a
+  later extension of it, not a separate build.
 
 ---
 

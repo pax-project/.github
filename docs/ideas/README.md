@@ -1,30 +1,36 @@
 # pax — idea backlog
 
-AI-assisted feature ideas for the pax project, split by which repo they'd
-land in. `lazy-pax`'s `docs/dod.md` explicitly excluded AI summaries,
-full-text indexing, citation graphs, and related-paper recommendations from
-the `lazypax` MVP — this backlog is for revisiting them now that the MVP
-loop is closed.
+Feature ideas for the pax project, split by which repo they'd land in. Most
+were AI-assisted feature ideas from the start; the rest (ideas 11+) were
+surfaced from `pax-core`'s and `lazy-pax`'s original MVP non-goals lists
+(`docs/mvp.md §5`, `docs/dod.md §4`) — deferred features that don't belong
+in a "non-goal" list once there's a backlog to track them in. Only genuine
+architectural boundaries (division of responsibility with Nix, no shadow
+state, etc.) stay documented as non-goals in each repo.
 
 Status values: `idea` (not started) · `prototyping` · `shipped` · `rejected`.
 Review periodically and update status + notes as thinking changes.
 
 ## By repo
 
-- [pax-core.md](pax-core.md) — currently empty; see "Architecture" below for why.
-- [lazy-pax.md](lazy-pax.md) — 1 idea.
-- [pax-ai.md](pax-ai.md) — 8 ideas; where most AI-assisted feature work lands.
+- [pax-core.md](pax-core.md) — 6 ideas: mostly "another client of the
+  library" (web UI, Neovim, MCP) or "another provider capability"
+  (citation graph, Zotero sync).
+- [lazy-pax.md](lazy-pax.md) — 5 ideas: UI-level features and the one idea
+  that stays a plain heuristic (see "Architecture" below for why).
+- [pax-ai.md](pax-ai.md) — 9 ideas: everything that needs an LLM call,
+  embeddings, or a derived cache.
 
 ---
 
 ## Architecture: `pax-ai`
 
-None of the ideas here live in `pax-core`. `pax-core`'s value is being a
-small, deterministic, reproducible library (`git clone` + `nix build`
-reconstructs the same artifact) — adding LLM calls, embeddings, or a derived
-cache to it would dilute that contract even if gated behind a feature flag:
-it stops being obviously reproducible, gains a second state model alongside
-`papers.nix`, and couples unrelated version bumps together.
+Ideas that need an LLM call, embeddings, or a derived cache don't live in
+`pax-core`. `pax-core`'s value is being a small, deterministic, reproducible
+library (`git clone` + `nix build` reconstructs the same artifact) — adding
+that kind of logic to it would dilute the contract even if gated behind a
+feature flag: it stops being obviously reproducible, gains a second state
+model alongside `papers.nix`, and couples unrelated version bumps together.
 
 Instead, AI-heavy ideas are planned as a new sibling crate/repo — working
 name `pax-ai` — that depends on `pax-core` the same way `lazy-pax` does (a
@@ -34,8 +40,9 @@ internally, and `pax-ai` is also where the MCP server lives. This gives
 every AI feature one shared implementation instead of duplicating it
 between the TUI and any MCP client.
 
-Ideas that don't need an LLM/embedding step can stay as plain `lazy-pax`
-logic — there's no reason to route a pure heuristic through `pax-ai`.
+Ideas that don't need an LLM/embedding step — most of `pax-core.md` and
+`lazy-pax.md` — are ordinary features in whichever repo they affect; there's
+no reason to route a plain heuristic or a new UI screen through `pax-ai`.
 
 `pax-ai`'s own non-negotiables, carried over from `pax-core`'s: writes only
 ever go through `pax-core` functions (never hand-write `papers.nix`), and any
@@ -43,7 +50,7 @@ persisted state (embeddings, cached summaries) is a rebuildable cache derived
 purely from `papers.nix` via `pax-core`'s read functions — never a second
 source of truth. Crate/repo name isn't finalized.
 
-## Cross-cutting considerations for all of the above
+## Cross-cutting considerations for AI ideas specifically
 
 - **Architecture fit:** AI-heavy ideas are `pax-ai` functionality, consumed
   by `lazy-pax`, not code written directly into either `lazy-pax` or
