@@ -1,12 +1,12 @@
 # lazy-pax — ideas
 
 Ideas that live directly in `lazy-pax` — either ones that don't need an
-LLM/embedding step (see [README.md](README.md) for the `pax-ai` split), or
+LLM/embedding step (see [`../README.md`](../README.md) for the `pax-ai` split), or
 ones that are inherently UI/client concerns rather than `pax-core` domain
 logic.
 
 Ideas 17–20 are surfaced from `lazy-pax`'s original MVP non-goals list
-([`goals/lazy-pax/dod.md §4`](../goals/lazy-pax/dod.md)) — each was a deferred feature, not an architectural
+([`dod.md §4`](dod.md)) — each was a deferred feature, not an architectural
 boundary, so they're tracked here rather than left as stale "not doing
 this" notes.
 
@@ -31,7 +31,7 @@ this" notes.
 - **Why here:** The MVP deliberately launches `$PAX_PDF_VIEWER` externally;
   this would be a genuinely large addition (a terminal PDF renderer) rather
   than a small one. Distinct from
-  [pax-ai.md #8](pax-ai.md)'s reading-companion side panel, which
+  [pax-ai.md #8](../pax-ai/ideas.md)'s reading-companion side panel, which
   complements the external viewer instead of replacing it.
 - **Notes:** Biggest lift on this list — no existing Rust terminal PDF
   renderer is a drop-in choice; would need real spike/research first.

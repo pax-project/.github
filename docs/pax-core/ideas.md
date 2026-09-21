@@ -4,10 +4,10 @@ Ideas that live directly in `pax-core` — mostly "another client of the
 library" or "another provider," matching how `pax`, `lazypax`, and the
 planned `pax-ai`/MCP server are all just clients of the same library. None
 of these need an LLM call, embeddings, or a derived cache; see
-[pax-ai.md](pax-ai.md) for the ones that do.
+[pax-ai.md](../pax-ai/ideas.md) for the ones that do.
 
 Surfaced from `pax-core`'s original MVP non-goals list
-([`goals/pax-core/mvp.md §5`](../goals/pax-core/mvp.md)) —
+([`mvp.md §5`](mvp.md)) —
 each was a deferred feature, not an architectural boundary, so it's tracked
 here rather than left as a stale "not doing this" note.
 
@@ -37,7 +37,7 @@ here rather than left as a stale "not doing this" note.
 ### 13. Citation graph
 - **What:** Fetch and expose citation relationships between papers (who
   cites whom), not just similarity — distinct from
-  [pax-ai.md #4](pax-ai.md)'s embedding-based "related papers," which infers
+  [pax-ai.md #4](../pax-ai/ideas.md)'s embedding-based "related papers," which infers
   similarity from abstracts rather than reading real citation edges.
 - **Status:** idea
 - **Why here:** Several providers (Semantic Scholar, OpenAlex) already

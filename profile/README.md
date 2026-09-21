@@ -15,9 +15,6 @@ academic papers.
 
 ## Docs
 
-Cross-cutting docs that don't belong to a single repo live here:
-
-- [`docs/ideas/`](https://github.com/pax-project/.github/blob/main/docs/ideas/README.md) —
-  feature idea backlog, split by which repo each idea affects.
-- [`docs/goals/`](https://github.com/pax-project/.github/blob/main/docs/goals/README.md) —
-  every repo's spec, implementation-status, and build history.
+Every repo's spec, implementation status, build history, and idea backlog
+lives in [`docs/`](https://github.com/pax-project/.github/blob/main/docs/README.md),
+organized by repo rather than in `pax-core`/`lazy-pax` themselves.

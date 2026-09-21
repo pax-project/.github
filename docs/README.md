@@ -1,25 +1,36 @@
-# pax — idea backlog
+# pax — docs
 
-Feature ideas for the pax project, split by which repo they'd land in. Most
-were AI-assisted feature ideas from the start; the rest (ideas 11+) were
-surfaced from `pax-core`'s and `lazy-pax`'s original MVP non-goals lists
-([`goals/pax-core/mvp.md §5`](../goals/pax-core/mvp.md), [`goals/lazy-pax/dod.md §4`](../goals/lazy-pax/dod.md)) — deferred features that don't belong
-in a "non-goal" list once there's a backlog to track them in. Only genuine
-architectural boundaries (division of responsibility with Nix, no shadow
-state, etc.) stay documented as non-goals in each repo.
-
-Status values: `idea` (not started) · `prototyping` · `shipped` · `rejected`.
-Review periodically and update status + notes as thinking changes.
+Docs for the whole `pax` project, organized by which repo they're about —
+not by `pax-core` or `lazy-pax` themselves, so neither repo's own docs
+describe a moving target (past/future goals, a feature backlog) alongside
+its actual code.
 
 ## By repo
 
-- [pax-core.md](pax-core.md) — 6 ideas: mostly "another client of the
-  library" (web UI, Neovim, MCP) or "another provider capability"
-  (citation graph, Zotero sync).
-- [lazy-pax.md](lazy-pax.md) — 5 ideas: UI-level features and the one idea
-  that stays a plain heuristic (see "Architecture" below for why).
-- [pax-ai.md](pax-ai.md) — 9 ideas: everything that needs an LLM call,
-  embeddings, or a derived cache.
+- [`pax-core/`](pax-core/README.md) — spec, status, and idea backlog for
+  [`pax-core`](https://github.com/pax-project/pax-core).
+- [`lazy-pax/`](lazy-pax/README.md) — spec, status, build history, and idea
+  backlog for [`lazy-pax`](https://github.com/pax-project/lazy-pax).
+- [`pax-ai/`](pax-ai/README.md) — idea backlog for the planned `pax-ai`
+  crate (not a repo yet).
+
+Each repo's folder holds two different kinds of doc:
+
+- **Goals** (`mvp.md`/`dod.md`, `status.md`, `build-log.md`) — what was
+  targeted, and what's actually built against it today. Tracked against
+  real code, kept up to date (except the spec/build-log themselves, which
+  are deliberately historical).
+- **Ideas** (`ideas.md`) — features nobody's built yet, not tracked against
+  anything. Status values: `idea` (not started) · `prototyping` ·
+  `shipped` · `rejected`. Review periodically and update status + notes as
+  thinking changes.
+
+Most ideas started as AI-assisted feature ideas; the rest were surfaced
+from `pax-core`'s and `lazy-pax`'s original MVP non-goals lists — deferred
+features that don't belong in a "non-goal" list once there's a backlog to
+track them in. Only genuine architectural boundaries (division of
+responsibility with Nix, no shadow state, etc.) stay documented as
+non-goals in each repo's own `mvp.md`/`dod.md`.
 
 ---
 
@@ -40,9 +51,10 @@ internally, and `pax-ai` is also where the MCP server lives. This gives
 every AI feature one shared implementation instead of duplicating it
 between the TUI and any MCP client.
 
-Ideas that don't need an LLM/embedding step — most of `pax-core.md` and
-`lazy-pax.md` — are ordinary features in whichever repo they affect; there's
-no reason to route a plain heuristic or a new UI screen through `pax-ai`.
+Ideas that don't need an LLM/embedding step — most of `pax-core/ideas.md`
+and `lazy-pax/ideas.md` — are ordinary features in whichever repo they
+affect; there's no reason to route a plain heuristic or a new UI screen
+through `pax-ai`.
 
 `pax-ai`'s own non-negotiables, carried over from `pax-core`'s: writes only
 ever go through `pax-core` functions (never hand-write `papers.nix`), and any

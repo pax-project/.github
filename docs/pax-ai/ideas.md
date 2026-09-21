@@ -2,11 +2,11 @@
 
 AI-assisted features that need an LLM call, embeddings, or a derived cache —
 kept out of `pax-core` and `lazy-pax` for the reasons in
-[README.md](README.md#architecture-pax-ai). `lazy-pax` will depend on
+[`../README.md`](../README.md#architecture-pax-ai). `lazy-pax` will depend on
 `pax-ai` for all of these instead of implementing them internally.
 
 #21 is surfaced from `pax-core`'s original MVP non-goals list
-([`goals/pax-core/mvp.md §5`](../goals/pax-core/mvp.md)) — it was a deferred feature, not an architectural
+([`pax-core/mvp.md §5`](../pax-core/mvp.md)) — it was a deferred feature, not an architectural
 boundary, so it's tracked here rather than left as a stale "not doing this"
 note.
 

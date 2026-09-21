@@ -146,7 +146,7 @@ deferred features. Everything else once listed here (PDF preview/rendering,
 annotation, full-text indexing, citation graphs, related-paper
 recommendations, AI summaries, config/theming, multi-library switching,
 scripting/plugins, packaging polish) is tracked as an idea in the
-[org idea backlog](https://github.com/pax-project/.github/blob/main/docs/ideas/lazy-pax.md)
+[org idea backlog](https://github.com/pax-project/.github/blob/main/docs/lazy-pax/ideas.md)
 instead.
 
 ## MVP success criteria (dod.md §5 — the actual "done" bar)

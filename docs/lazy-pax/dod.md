@@ -149,7 +149,7 @@ features — everything else once listed here (PDF preview/rendering,
 annotation, full-text indexing, citation graphs, related-paper
 recommendations, AI summaries, config/theming, multi-library switching,
 scripting/plugins, packaging polish) is either built or tracked as an idea
-in the [pax-project org's idea backlog](https://github.com/pax-project/.github/blob/main/docs/ideas/lazy-pax.md)
+in the [pax-project org's idea backlog](https://github.com/pax-project/.github/blob/main/docs/lazy-pax/ideas.md)
 instead:
 
 - Any provider beyond what `pax-core` already implements (no DBLP work inside

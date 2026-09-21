@@ -438,7 +438,7 @@ interface, PDF annotation, full-text indexing, citation graph, related-paper
 recommendations, AI summaries, auto lit-reviews, Neovim/Zotero/cloud sync,
 more providers) was either built (`lazypax` — see
 https://github.com/pax-project/lazy-pax) or is tracked as an idea in the
-[pax-project org's idea backlog](https://github.com/pax-project/.github/blob/main/docs/ideas/)
+[pax-project org's idea backlog](https://github.com/pax-project/.github/blob/main/docs/README.md)
 rather than enumerated here, since it's a deferred feature, not an
 architectural boundary.
 

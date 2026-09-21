@@ -101,7 +101,7 @@ it should stay accurate rather than aspirational.
 Embedded Nix evaluator, custom artifact store — these would cross PAX's core
 division of responsibility with Nix. Everything else once listed here was
 either built (`lazypax`) or moved to the
-[org idea backlog](https://github.com/pax-project/.github/blob/main/docs/ideas/) —
+[org idea backlog](https://github.com/pax-project/.github/blob/main/docs/README.md) —
 see `mvp.md §5` for the full reasoning.
 
 ## Critical path
