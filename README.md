@@ -17,5 +17,5 @@ academic papers.
 
 Cross-cutting docs that don't belong to a single repo live here:
 
-- [`docs/ai-ideas.md`](docs/ai-ideas.md) — AI capability backlog and the
-  `pax-core` / `lazy-pax` / `pax-ai` architecture split.
+- [`docs/ideas/`](docs/ideas/README.md) — AI capability backlog, split by
+  which repo (`pax-core` / `lazy-pax` / `pax-ai`) each idea affects.

@@ -1,42 +1,9 @@
-# lazypax — AI capability ideas
+# pax-ai — ideas
 
-A running list of AI-assisted features to consider post-MVP, grouped by which
-part of the app they'd improve. `docs/dod.md` explicitly excluded AI
-summaries, full-text indexing, citation graphs, and related-paper
-recommendations from the MVP — this is the backlog for revisiting them now
-that the MVP loop is closed.
-
-Status values: `idea` (not started) · `prototyping` · `shipped` · `rejected`.
-Review periodically and update status + notes as thinking changes.
-
----
-
-## Architecture: `pax-ai`
-
-None of the ideas below live in `pax-core`. `pax-core`'s value is being a
-small, deterministic, reproducible library (`git clone` + `nix build`
-reconstructs the same artifact) — adding LLM calls, embeddings, or a derived
-cache to it would dilute that contract even if gated behind a feature flag:
-it stops being obviously reproducible, gains a second state model alongside
-`papers.nix`, and couples unrelated version bumps together.
-
-Instead, AI-heavy ideas (#1, #2, #3, #4, #5, #7, #8, #9) are planned as a new
-sibling crate — working name `pax-ai` — that depends on `pax-core` the same
-way `lazy-pax` does (a client, not a fork, no modifications to `pax-core`
-itself). `lazy-pax` will depend on `pax-ai` for these features instead of
-implementing them internally, and `pax-ai` is also where the MCP server
-(#9) lives. This gives every AI feature one shared implementation instead of
-duplicating it between the TUI and any MCP client.
-
-Ideas that don't need an LLM/embedding step (currently just #6) can stay as
-plain `lazy-pax` logic — there's no reason to route a pure heuristic through
-`pax-ai`.
-
-`pax-ai`'s own non-negotiables, carried over from `pax-core`'s: writes only
-ever go through `pax-core` functions (never hand-write `papers.nix`), and any
-persisted state (embeddings, cached summaries) is a rebuildable cache derived
-purely from `papers.nix` via `pax-core`'s read functions — never a second
-source of truth. Crate name isn't finalized.
+AI-assisted features that need an LLM call, embeddings, or a derived cache —
+kept out of `pax-core` and `lazy-pax` for the reasons in
+[README.md](README.md#architecture-pax-ai). `lazy-pax` will depend on
+`pax-ai` for all of these instead of implementing them internally.
 
 ---
 
@@ -111,18 +78,6 @@ Improve the accuracy/completeness of what's recorded about each paper.
   through `lazy-pax` calling `pax_core::edit_paper` after user confirmation,
   same as today — `pax-ai` never writes to the library itself.
 
-### 6. Duplicate / near-duplicate detection
-- **Status:** idea
-- **What:** Flag likely duplicates beyond the current DOI-exact match (e.g.
-  same paper indexed differently across providers, preprint vs.
-  published version).
-- **Why here:** Current in-library indicator relies on `normalize_doi`
-  matching; this catches the cases that slip through.
-- **Notes:** Can likely be a plain heuristic (title/author fuzzy matching) —
-  no LLM/embedding step required, so this one can stay `lazy-pax`-only
-  rather than routing through `pax-ai`. Revisit if it later needs semantic
-  matching instead of string similarity.
-
 ### 7. Citation-key / BibTeX quality pass
 - **Status:** idea
 - **What:** AI-assisted key naming or BibTeX field completion when a
@@ -178,26 +133,3 @@ A different axis from the sections above: instead of AI features embedded
   confirm-prompt for remove. Recommended starting point among the ideas on
   this list — doesn't strictly require any AI feature above to exist first,
   since the plain CRUD tools have no LLM dependency of their own.
-
----
-
-## Cross-cutting considerations for all of the above
-
-- **Architecture fit:** AI-heavy ideas (#1, #2, #3, #4, #5, #7, #8, #9) are
-  `pax-ai` functionality, consumed by `lazy-pax`, not code written directly
-  into either `lazy-pax` or `pax-core`. #6 can stay `lazy-pax`-only as a
-  plain heuristic. None of these require writing new fields into
-  `papers.nix` (which would need a `pax-core` change first, and per the DoD,
-  that's raised upstream, not patched around locally) — see the
-  "Architecture: `pax-ai`" section above for the full reasoning.
-- **No shadow state:** anything that needs persistence (embeddings, cached
-  summaries) is a rebuildable cache in `pax-ai`, derived purely from
-  `papers.nix` via `pax-core`'s read functions — never a second source of
-  truth, and `pax-ai` never writes `papers.nix` directly.
-- **Off-thread execution:** any LLM/API call follows the same
-  `job.rs`/`spawn_blocking` pattern as provider search and `nix` calls, so
-  the UI never freezes on a network round-trip.
-- **Cost/privacy:** most of these send abstracts or full paper text to a
-  third-party API — worth a deliberate decision (which provider, local vs.
-  hosted model, opt-in/opt-out) before picking a starting point. This
-  decision now belongs to `pax-ai`, not `pax-core` or `lazy-pax`.
