@@ -7,30 +7,19 @@ its actual code.
 
 ## By repo
 
-- [`pax-core/`](pax-core/README.md) — spec, status, and idea backlog for
-  [`pax-core`](https://github.com/pax-project/pax-core).
-- [`lazy-pax/`](lazy-pax/README.md) — spec, status, build history, and idea
-  backlog for [`lazy-pax`](https://github.com/pax-project/lazy-pax).
-- [`pax-ai/`](pax-ai/README.md) — idea backlog for the planned `pax-ai`
-  crate (not a repo yet).
+- [`lazy-pax/`](lazy-pax/README.md) — non-negotiable architectural
+  constraints for [`lazy-pax`](https://github.com/pax-project/lazy-pax).
 
-Each repo's folder holds two different kinds of doc:
+`pax-core` and `pax-ai` have no file-based docs left here — their idea
+backlogs and implementation-status tracking moved to each repo's Issues
+(or Discussions, for `pax-ai`, which isn't a repo yet) and a shared
+org-wide Project, and `pax-core`'s original MVP spec now lives in that
+repo's `1.0.0` Release notes.
 
-- **Goals** (`mvp.md`/`dod.md`, `status.md`, `build-log.md`) — what was
-  targeted, and what's actually built against it today. Tracked against
-  real code, kept up to date (except the spec/build-log themselves, which
-  are deliberately historical).
-- **Ideas** (`ideas.md`) — features nobody's built yet, not tracked against
-  anything. Status values: `idea` (not started) · `prototyping` ·
-  `shipped` · `rejected`. Review periodically and update status + notes as
-  thinking changes.
-
-Most ideas started as AI-assisted feature ideas; the rest were surfaced
-from `pax-core`'s and `lazy-pax`'s original MVP non-goals lists — deferred
-features that don't belong in a "non-goal" list once there's a backlog to
-track them in. Only genuine architectural boundaries (division of
-responsibility with Nix, no shadow state, etc.) stay documented as
-non-goals in each repo's own `mvp.md`/`dod.md`.
+This folder now only holds what those native tools can't express: fixed
+architectural boundaries (division of responsibility with Nix, no shadow
+state, etc.) that aren't backlog items or progress to track — see
+`lazy-pax`'s `dod.md`.
 
 ---
 

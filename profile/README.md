@@ -15,6 +15,8 @@ academic papers.
 
 ## Docs
 
-Every repo's spec, implementation status, build history, and idea backlog
-lives in [`docs/`](https://github.com/pax-project/.github/blob/main/docs/README.md),
-organized by repo rather than in `pax-core`/`lazy-pax` themselves.
+Idea backlogs and implementation status live in each repo's Issues (or
+Discussions, for `pax-ai`) and the org's shared Project (see the
+Projects tab above).
+[`docs/`](https://github.com/pax-project/.github/blob/main/docs/README.md)
+holds only fixed architectural boundaries that don't fit those tools.
