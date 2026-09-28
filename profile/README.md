@@ -10,8 +10,9 @@ academic papers.
   provider search, `papers.nix` management, Nix-backed artifact fetching.
 - [lazy-pax](https://github.com/pax-project/lazy-pax) — `lazypax`, the terminal UI
   built on `pax-core`.
-- `pax-ai` (planned) — shared AI substrate (summaries, semantic search,
-  RAG) and an MCP server, depending on `pax-core` without modifying it.
+- [pax-ai](https://github.com/pax-project/pax-ai) — shared AI substrate
+  (summaries, semantic search, RAG) and an MCP server, depending on
+  `pax-core` without modifying it.
 
 ## Docs
 

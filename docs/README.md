@@ -12,9 +12,9 @@ its actual code.
 
 `pax-core` and `pax-ai` have no file-based docs left here — their idea
 backlogs and implementation-status tracking moved to each repo's Issues
-(or Discussions, for `pax-ai`, which isn't a repo yet) and a shared
-org-wide Project, and `pax-core`'s original MVP spec now lives in that
-repo's `1.0.0` Release notes.
+(or [Discussions](https://github.com/pax-project/pax-ai/discussions), for
+`pax-ai`) and a shared org-wide Project, and `pax-core`'s original MVP spec
+now lives in that repo's `1.0.0` Release notes.
 
 This folder now only holds what those native tools can't express: fixed
 architectural boundaries (division of responsibility with Nix, no shadow
@@ -32,13 +32,14 @@ that kind of logic to it would dilute the contract even if gated behind a
 feature flag: it stops being obviously reproducible, gains a second state
 model alongside `papers.nix`, and couples unrelated version bumps together.
 
-Instead, AI-heavy ideas are planned as a new sibling crate/repo — working
-name `pax-ai` — that depends on `pax-core` the same way `lazy-pax` does (a
-client, not a fork, no modifications to `pax-core` itself). `lazy-pax` will
-depend on `pax-ai` for these features instead of implementing them
-internally, and `pax-ai` is also where the MCP server lives. This gives
-every AI feature one shared implementation instead of duplicating it
-between the TUI and any MCP client.
+Instead, AI-heavy ideas live in a sibling crate/repo,
+[`pax-ai`](https://github.com/pax-project/pax-ai), that depends on
+`pax-core` the same way `lazy-pax` does (a client, not a fork, no
+modifications to `pax-core` itself). `lazy-pax` will depend on `pax-ai` for
+these features instead of implementing them internally, and `pax-ai` is
+also where the MCP server lives. This gives every AI feature one shared
+implementation instead of duplicating it between the TUI and any MCP
+client.
 
 Ideas that don't need an LLM/embedding step — most of `pax-core/ideas.md`
 and `lazy-pax/ideas.md` — are ordinary features in whichever repo they
@@ -49,7 +50,7 @@ through `pax-ai`.
 ever go through `pax-core` functions (never hand-write `papers.nix`), and any
 persisted state (embeddings, cached summaries) is a rebuildable cache derived
 purely from `papers.nix` via `pax-core`'s read functions — never a second
-source of truth. Crate/repo name isn't finalized.
+source of truth.
 
 ## Cross-cutting considerations for AI ideas specifically
 
@@ -66,6 +67,10 @@ source of truth. Crate/repo name isn't finalized.
   `job.rs`/`spawn_blocking` pattern as provider search and `nix` calls, so
   the UI never freezes on a network round-trip.
 - **Cost/privacy:** most of these send abstracts or full paper text to a
-  third-party API — worth a deliberate decision (which provider, local vs.
-  hosted model, opt-in/opt-out) before picking a starting point. This
-  decision belongs to `pax-ai`, not `pax-core` or `lazy-pax`.
+  third-party API. Resolved: the LLM/embedding capability is a port
+  (trait), not a hardcoded client, so the backend is a runtime/config
+  choice rather than a compile-time one. First adapter is hosted
+  (Anthropic) — a deliberate, explicit choice, not a default; a local-model
+  adapter (e.g. via Ollama) is the expected second adapter once the port's
+  shape has settled against a real client. This decision belongs to
+  `pax-ai`, not `pax-core` or `lazy-pax` — see `pax-ai`'s own `CLAUDE.md`.
