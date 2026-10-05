@@ -1,0 +1,17 @@
+name: Rust CI (reusable)
+
+# Facade: this workflow only knows `just ci` exists. Each check's own logic
+# lives in the caller repo's own justfile, so this file never duplicates or
+# drifts from what runs locally and in that repo's git hooks.
+
+on:
+  workflow_call: {}
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix develop --command just ci
