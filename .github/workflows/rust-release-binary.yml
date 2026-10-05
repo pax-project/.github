@@ -1,0 +1,43 @@
+name: Rust release binary (reusable)
+
+# Builds the caller repo's own flake `packages.x86_64-linux.default` and
+# attaches it to the GitHub release that triggered the caller's workflow.
+# Decoupled from publish: a crate that fails to publish shouldn't block a
+# binary attach, and vice versa.
+
+on:
+  workflow_call:
+    inputs:
+      binary-name:
+        required: true
+        type: string
+      package-bin:
+        description: name of the binary produced by the flake's default package, under result/bin/
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  attach-binary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build release binary
+        run: nix build .#default
+      - name: Package tarball
+        env:
+          BIN: ${{ inputs.package-bin || inputs.binary-name }}
+          NAME: ${{ inputs.binary-name }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: tar czf "${NAME}-${TAG}-x86_64-linux.tar.gz" -C result/bin "$BIN"
+      - name: Upload to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+          NAME: ${{ inputs.binary-name }}
+        run: gh release upload "$TAG" "${NAME}-${TAG}-x86_64-linux.tar.gz"
