@@ -4,9 +4,18 @@ name: Rust release publish (reusable)
 # publish = false), and creates the GitHub release. release-plz itself
 # detects whether the pushed commit is a release-plz PR merge; this is
 # safe to call unconditionally on every push to main.
+#
+# Exposes release-plz's outputs so the caller can chain follow-up jobs:
+# a release created with GITHUB_TOKEN fires no `release` event.
 
 on:
   workflow_call:
+    outputs:
+      releases_created:
+        value: ${{ jobs.release.outputs.releases_created }}
+      releases:
+        description: release-plz's JSON array of {package_name, tag, version}
+        value: ${{ jobs.release.outputs.releases }}
     secrets:
       CARGO_REGISTRY_TOKEN:
         required: true
@@ -18,12 +27,16 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release-plz.outputs.releases_created }}
+      releases: ${{ steps.release-plz.outputs.releases }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
-      - uses: release-plz/action@v0.5
+      - id: release-plz
+        uses: release-plz/action@v0.5
         with:
           command: release
         env:

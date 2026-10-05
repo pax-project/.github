@@ -1,13 +1,17 @@
 name: Rust release binary (reusable)
 
-# Builds the caller repo's own flake `packages.x86_64-linux.default` and
-# attaches it to the GitHub release that triggered the caller's workflow.
-# Decoupled from publish: a crate that fails to publish shouldn't block a
-# binary attach, and vice versa.
+# Builds the caller repo's own flake `packages.x86_64-linux.default` at
+# `tag` and attaches it to that tag's GitHub release. Decoupled from
+# publish: a crate that fails to publish shouldn't block a binary attach,
+# and vice versa.
 
 on:
   workflow_call:
     inputs:
+      tag:
+        description: existing release tag to build and attach to
+        required: true
+        type: string
       binary-name:
         required: true
         type: string
@@ -25,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build release binary
@@ -33,11 +39,11 @@ jobs:
         env:
           BIN: ${{ inputs.package-bin || inputs.binary-name }}
           NAME: ${{ inputs.binary-name }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag }}
         run: tar czf "${NAME}-${TAG}-x86_64-linux.tar.gz" -C result/bin "$BIN"
       - name: Upload to the release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag }}
           NAME: ${{ inputs.binary-name }}
-        run: gh release upload "$TAG" "${NAME}-${TAG}-x86_64-linux.tar.gz"
+        run: gh release upload --clobber "$TAG" "${NAME}-${TAG}-x86_64-linux.tar.gz"
