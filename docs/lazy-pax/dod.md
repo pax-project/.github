@@ -34,8 +34,9 @@ Search → Select → Declare → Fetch → Manage → Reproduce
       (`add_candidate`, `edit_paper`, `remove_paper`, `fetch_paper`,
       `check_library`, `sync_library`, `resolve_artifact_path`, `bibtex::render`,
       etc.) — never by hand-parsing or hand-writing `papers.nix`.
-  - Note: [`pax-core/status.md`](../pax-core/status.md) tracks which of these
-    already exist; verify against it, don't assume.
+  - Note: pax-core's [Issues](https://github.com/pax-project/pax-core/issues)
+    and the org's [pax Project](https://github.com/orgs/pax-project/projects/2)
+    track which of these already exist; verify against them, don't assume.
 - [ ] A `research/` library produced or modified through `lazypax` remains fully
       usable from the plain `pax` CLI and vice versa — no `lazypax`-only state,
       no divergent file format.
@@ -50,7 +51,7 @@ Search → Select → Declare → Fetch → Manage → Reproduce
 
 ## 3. Core MVP screens/features
 
-Each maps to an existing (or planned, per [`pax-core/status.md`](../pax-core/status.md)) `pax-core`
+Each maps to an existing (or planned, per [pax-core's Issues](https://github.com/pax-project/pax-core/issues)) `pax-core`
 capability — `lazypax` adds interactivity and visualization, not new domain
 logic.
 
