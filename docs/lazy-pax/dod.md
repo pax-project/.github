@@ -29,11 +29,18 @@ Search → Select → Declare → Fetch → Manage → Reproduce
       or reimplementing provider/library logic is out of scope: any behavior
       that already exists in `pax-core` must be called, not rebuilt.
 - [ ] `lazypax` operates on a `research/` library laid out exactly as `pax init`
-      creates it (`research/flake.nix` + `research/papers.nix`), and reads/writes
-      it only through `pax_core::Library` / the existing `pax_core` functions
-      (`add_candidate`, `edit_paper`, `remove_paper`, `fetch_paper`,
-      `check_library`, `sync_library`, `resolve_artifact_path`, `bibtex::render`,
-      etc.) — never by hand-parsing or hand-writing `papers.nix`.
+      creates it (`research/flake.nix` + `research/papers.nix`), plus the two
+      files pax-core 2.0 adds as the library is used:
+      - `research/excluded.nix`: the excluded-papers blacklist, each entry with
+        a title, a required reason, and a stage (`screening` / `full-text`).
+      - `research/search-log.jsonl`: an append-only log, one line per provider
+        per search, `refs` or `cited-by` run.
+
+      It reads/writes all of them only through `pax_core::Library` / the
+      existing `pax_core` functions (`add_candidate`, `exclude_paper`,
+      `edit_paper`, `remove_paper`, `fetch_paper`, `check_library`,
+      `sync_library`, `resolve_artifact_path`, `bibtex::render`, the `*_logged`
+      searches, etc.) — never by hand-parsing or hand-writing any of these files.
   - Note: pax-core's [Issues](https://github.com/pax-project/pax-core/issues)
     and the org's [pax Project](https://github.com/orgs/pax-project/projects/2)
     track which of these already exist; verify against them, don't assume.
@@ -155,9 +162,10 @@ instead:
 
 - Any provider beyond what `pax-core` already implements (no DBLP work inside
   `lazypax` — that's `pax-core`'s call to make, not this project's).
-- Any local cache/database of its own — `research/papers.nix` (via
-  `pax-core`) remains the single source of truth; no shadow state that can
-  drift from it.
+- Any local cache/database of its own — `research/papers.nix`,
+  `research/excluded.nix` and `research/search-log.jsonl` (via
+  `pax-core`) remain the single source of truth; no shadow state that can
+  drift from them.
 - Any change to `pax-core`'s public API driven by `lazypax`'s convenience
   alone — if a gap is found, it's raised against `pax`, not patched around
   locally.
