@@ -10,8 +10,30 @@ on:
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
+    env:
+      # Incremental artifacts never help a fresh CI checkout; they only
+      # bloat the cached target/.
+      CARGO_INCREMENTAL: 0
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      # The dev shell's store as one archive, keyed on what defines it:
+      # restored in one download, and saved only when the key misses (the
+      # flake changed), instead of re-uploading every path on every run.
+      - uses: nix-community/cache-nix-action@v7
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock') }}
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+      # Crates and build artifacts, keyed on the toolchain (flake.lock) and
+      # the dependency set (Cargo.lock), so clippy and the tests only
+      # compile what changed.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: cargo-${{ runner.os }}-${{ hashFiles('flake.lock', '**/Cargo.lock') }}
+          restore-keys: cargo-${{ runner.os }}-
       - run: nix develop --command just ci
